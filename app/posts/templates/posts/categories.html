@@ -1,0 +1,58 @@
+{% from 'render_field.html' import render_field %}
+{% extends "base.html" %}
+
+{% block title %} Users {% endblock %}
+
+{% block content %}
+
+<h1>Categories page</h1>
+<br>
+<div>
+    <div class="mt-4">
+        <table class="table mb-4 text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody style="vertical-align: middle;">
+                {% for category in categories %}
+                <tr>
+                    <td>
+                        {{ category.id }}
+                    </td>
+                    <td>
+                        {{ category.name }}
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-sm">Edit</a>
+                    </td>
+                    <td> 
+                        <a class="btn btn-danger btn-sm" href="{{ url_for('posts.delete_category', id=category.id) }}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>        
+    </div>
+</div>
+
+<h1>New category</h1>
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="mt-4 col-sm-3">
+        <form action={{url_for("posts.categories")}}  method="POST" novalidate enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            {{ render_field(form.name)}}
+            <br>
+            <div class="button-container d-grid"> 
+                {{form.submit()}}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
